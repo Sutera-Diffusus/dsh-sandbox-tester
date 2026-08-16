@@ -1,4 +1,4 @@
-# dsh-sandbox
+# dsh-sandbox-tester
 
 **DSH 沙盒测试器**——为 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 打造的进程级隔离测试场。
 
