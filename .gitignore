@@ -1,0 +1,21 @@
+# dependencies (junction in dev, must never be committed)
+node_modules/
+
+# logs / temp
+*.log
+*.tmp
+
+# local dev coordination docs (not part of the public repo)
+CONTRACT.md
+RULES.md
+
+# generic build/output rules
+dist/
+target/
+.env
+*.db
+*.exe
+*.msi
+releases/
+backup/
+.toolchain/

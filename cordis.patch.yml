@@ -1,0 +1,18 @@
+# dsh-sandbox bundle patch — 把测试沙盒能力叠加到 profile 组合上。
+#
+# insert 块新增一行(bundle patch 的顶层裸行是 id 定向覆盖,新增必须放 insert):
+#   `sandbox` — 本包运行时插件:
+#     · 提供 `sandbox` 服务(registry / ports / proctree / constants / settings);
+#     · 注册 9 个原生工具:sandbox_list / sandbox_create / sandbox_inject /
+#       sandbox_stop / sandbox_destroy / sandbox_prune(M1)、
+#       sandbox_run / sandbox_health(M2)、sandbox_merge(M2 门禁式合回);
+#     · 注册 settings 命名空间 'sandbox'(SANDBOX_ROOT / PORT_START / AGE_HOURS);
+#     · 客户端插件:bundle `dsh.client: { platform: 'web' }` + exports['./client']
+#       (设置页「测试沙盒」区段,M3)。
+#
+# 沙盒真隔离边界是操作系统进程:沙盒由 `node <sandbox-program>\node_modules\...\bin.js
+# web --port <p>` 直接拉起,独立 DSH_HOME 与独立端口(3182+),本体 3080 全程零影响。
+
+- insert:
+    - id: test-sandbox
+      name: dsh-sandbox
