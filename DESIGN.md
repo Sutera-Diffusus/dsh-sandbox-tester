@@ -1,10 +1,9 @@
-# DSH 测试沙盒插件(dsh-sandbox)设计文档
+# DSH 测试沙盒插件(dsh-sandbox-tester)设计文档
 
-> 版本:v0.1(设计评审稿,含评审结论)
+> 版本:v0.1(设计评审稿)
 > 日期:2026-08-16
-> 状态:评审通过,进入开发与验证
-
-> **路径约定**:本文档中的绝对路径(`D:\DeepseekHarness_*`、`D:\ai-temp` 等)是作者开发环境的默认值示例;全部运行时路径均可在插件设置(settings 命名空间 `sandbox`)中修改,安装脚本支持 `--target` 指定任意 DSH 安装目录。
+> 作者:DSH 主会话(本体 GUI)
+> 状态:待用户评审
 
 ---
 
@@ -55,7 +54,7 @@ DSH 是插件化架构(cordis),**所有插件都运行在宿主进程内**。开
 ### 2.2 本插件的定位:沙盒编排器
 
 ```
-dsh-sandbox(运行在本体进程内,只做编排,自身绝不执行危险代码)
+dsh-sandbox-tester(运行在本体进程内,只做编排,自身绝不执行危险代码)
  ├─ create   克隆本体 → 独立沙盒目录 + 独立 DSH_HOME + 自动分配端口
  ├─ inject   把待测插件/补丁打进沙盒(永远不碰本体 node_modules)
  ├─ run      预检(本体 3080 健康) → subprocess 拉起沙盒进程 → 健康检查
@@ -116,7 +115,7 @@ dsh-sandbox(运行在本体进程内,只做编排,自身绝不执行危险代码
 
 ### 4.1 本体改动点(最小化,仅 1 行)
 
-- 沿用 dsh-github v4 先例:`dsh-host-apiproxy` 的 `WEB_SETTINGS_NAMESPACES` 白名单增加 `sandbox`(先备份 `index.js.dsh-sandbox-bak`,运行中进程不受影响,重启后生效)。
+- 沿用 dsh-github v4 先例:`dsh-host-apiproxy` 的 `WEB_SETTINGS_NAMESPACES` 白名单增加 `sandbox`(先备份 `index.js.dsh-sandbox-tester-bak`,运行中进程不受影响,重启后生效)。
 - 除此之外本体零改动。
 
 ### 4.2 复用的 DSH 内部基础设施
@@ -150,7 +149,7 @@ D:\DeepseekHarness_Sandboxes\<name>\
 
 ### 4.5 日志与报告
 
-- 沙盒 stdout/stderr → `D:\ai-temp\dsh-sandbox-<name>.log`(同 bin-guard 日志位置惯例);
+- 沙盒 stdout/stderr → `D:\ai-temp\dsh-sandbox-tester-<name>.log`(同 bin-guard 日志位置惯例);
 - 每次 verify 产出 `report.json`:健康检查项、CDP 冒烟项、bundle 校验项、结论(通过/失败)、失败摘录。
 
 ---
